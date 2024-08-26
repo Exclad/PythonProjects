@@ -1,10 +1,25 @@
 import requests
 import tkinter as tk
 from tkinter import messagebox
+import os
 
-# Oanda API settings
-API_TOKEN = 'YOUR_API_TOKEN_HERE'
-ACCOUNT_ID = 'YOUR_ACCOUNT_ID_HERE'
+# Function to load credentials from a file
+def load_credentials(file_path):
+    credentials = {}
+    with open(file_path, 'r') as file:
+        for line in file:
+            key, value = line.strip().split('=')
+            credentials[key] = value
+    return credentials
+
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(script_dir, 'credentials.txt')
+
+# Load credentials
+credentials = load_credentials(file_path)
+API_TOKEN = credentials['API_TOKEN']
+ACCOUNT_ID = credentials['ACCOUNT_ID']
 API_URL = 'https://api-fxpractice.oanda.com/v3/accounts/'
 
 # Function to get balance from Oanda API
